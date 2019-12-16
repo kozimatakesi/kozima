@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Miniblog</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div class="header">
+      <h2 class="grid-6">
+        <a href="/">　Local Rating</a>
+      </h2>
+    </div>
+    
+      <div class="container">
+      <div class="head">
+          <% if user_signed_in? %>
+            <% winrait = (current_user.win_count.to_f/current_user.game_count.to_f) * 100 %>
+            <div class="mymenu">
+              <p>こんにちは あなたは「<%= current_user.nickname %>」さんです。あなたのレーティングは「<%= current_user.raiting %>」です。
+              あなたの総試合数は「<%= current_user.game_count %>」です。あなたの勝率は「<%= winrait.to_f.round(2) %>%」です。</p>
+            </div>
+            <ul class="menu">
+              <li><%= link_to "SIGN OUT", destroy_user_session_path,class: 'btn-square', method: :delete %></li>
+              <li><%= link_to '対戦', "/tweets/battle/",class: 'btn-square',method: :get %></li>
+            </ul>
+          <% else %>
+            <ul class="menu">
+              <li><%= link_to "SIGN IN", new_user_session_path,class: 'btn-square' %></li>
+              <li><%= link_to '対戦', "/tweets/battle/",class: 'btn-square' ,method: :get %></li>
+            </ul>
+          <% end %>
+      </div>
+      <div class="contents_body">
+        <div class="contents">
+        <%= yield %>
+        </div>
+      </div>
+  
+        </div>
+        
+      <footer>
+        <p>(c)Copy light</p>
+      </footer>
+
+  </body>
+</html>
